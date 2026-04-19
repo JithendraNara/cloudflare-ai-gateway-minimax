@@ -153,6 +153,7 @@ headers = {
 | [ENDPOINTS.md](ENDPOINTS.md) | All tested MiniMax endpoints with example requests |
 | [INTEGRATION.md](INTEGRATION.md) | AI agent integration patterns |
 | [TESTING.md](TESTING.md) | Raw test data, methodology, latency benchmarks |
+| [TTS.md](TTS.md) | Text-to-Speech via AI Gateway — HTTP works, WebSocket streaming not supported |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System diagrams and data flow |
 | [OBSERVABILITY.md](OBSERVABILITY.md) | GraphQL analytics API — usage stats, costs, cache, errors |
 | [RATE_LIMITING.md](RATE_LIMITING.md) | Live test results — fixed vs sliding window, 429 behavior, per-request overrides |
