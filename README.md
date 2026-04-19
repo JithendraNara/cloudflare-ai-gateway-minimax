@@ -154,6 +154,7 @@ headers = {
 | [INTEGRATION.md](INTEGRATION.md) | AI agent integration patterns |
 | [TESTING.md](TESTING.md) | Raw test data, methodology, latency benchmarks |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System diagrams and data flow |
+| [OBSERVABILITY.md](OBSERVABILITY.md) | GraphQL analytics API — usage stats, costs, cache, errors |
 
 ## Two Auth Systems (Critical)
 
