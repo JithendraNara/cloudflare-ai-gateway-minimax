@@ -155,6 +155,7 @@ headers = {
 | [TESTING.md](TESTING.md) | Raw test data, methodology, latency benchmarks |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System diagrams and data flow |
 | [OBSERVABILITY.md](OBSERVABILITY.md) | GraphQL analytics API — usage stats, costs, cache, errors |
+| [RATE_LIMITING.md](RATE_LIMITING.md) | Live test results — fixed vs sliding window, 429 behavior, per-request overrides |
 
 ## Two Auth Systems (Critical)
 
