@@ -14,14 +14,14 @@ This repo documents the full setup and integration of **MiniMax** as a custom pr
 - ✅ Caching: Per-request headers, cache key strategies, broadcast optimization
 - ✅ Observability: Analytics, logging, cost tracking
 - ✅ Live test results with latency and cache behavior data
-- ✅ Hermes agent integration (production usage patterns)
+- ✅ AI agent integration (production usage patterns)
 
 ## Architecture Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        Your App                             │
-│                   (Hermes Agent, etc.)                      │
+│                   (AI Agent, CLI, App, etc.)                │
 └─────────────────────┬───────────────────────────────────────┘
                       │ HTTP/REST
                       ▼
@@ -150,7 +150,7 @@ headers = {
 | [ROUTING.md](ROUTING.md) | Unified API vs Provider-native, dynamic routing |
 | [CACHING.md](CACHING.md) | Deep dive: headers, TTL, keys, broadcast patterns |
 | [ENDPOINTS.md](ENDPOINTS.md) | All tested MiniMax endpoints with example requests |
-| [INTEGRATION.md](INTEGRATION.md) | Hermes agent integration patterns |
+| [INTEGRATION.md](INTEGRATION.md) | AI agent integration patterns |
 | [TESTING.md](TESTING.md) | Raw test data, methodology, latency benchmarks |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System diagrams and data flow |
 

@@ -11,7 +11,7 @@
 
 ```bash
 # Request 1: Unique string (never seen before)
-UNIQ="hermes-test-e1045758f7b24ed4"
+UNIQ="test-phrase-abc123"
 curl -i -X POST ".../custom-minimax/v1/chat/completions" \
   -H "cf-aig-cache-ttl: 300" \
   -d '{"model": "minimax-m2.7", "messages": [...], "max_tokens": 30}'

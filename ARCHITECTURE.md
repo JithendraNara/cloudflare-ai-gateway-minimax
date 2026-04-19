@@ -5,7 +5,7 @@
 ```
                            ┌──────────────────────────┐
                            │    Your Application       │
-                           │    (Hermes Agent, CLI,   │
+                           │    (AI Agent, CLI, App)     │
                            │     Scripts, Cron Jobs)   │
                            └────────────┬─────────────┘
                                         │ HTTP/REST
@@ -77,7 +77,7 @@ cf-aigateway-minimax/
 ├── ROUTING.md             # Unified API vs provider-native routing
 ├── CACHING.md             # Deep dive on caching behavior
 ├── ENDPOINTS.md           # All tested endpoints with examples
-├── INTEGRATION.md         # Hermes agent integration patterns
+├── INTEGRATION.md         # Generic AI agent integration patterns
 ├── TESTING.md             # Raw test data and methodology
 ├── ARCHITECTURE.md        # This file
 └── .env.example           # Environment variable template

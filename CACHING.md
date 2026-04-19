@@ -84,7 +84,7 @@ This means:
 ### Single Request Caching
 
 ```
-Test: "Repeat this exact phrase back: hermes-test-e1045758f7b24ed4"
+Test: "Repeat this exact phrase back: test-phrase-abc123"
 First request:  1.45s (MISS)
 Second request: 0.17s (HIT)
 Speedup: ~8.5x
