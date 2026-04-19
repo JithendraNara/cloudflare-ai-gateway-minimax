@@ -3,6 +3,7 @@
 > **Use any AI provider behind Cloudflare's AI Gateway** — get caching, rate limiting, observability, and unified billing on top of MiniMax (or any OpenAI-compatible API).
 
 [![Cloudflare](https://img.shields.io/badge/Cloudflare-AI%20Gateway-orange)](https://developers.cloudflare.com/ai-gateway/)
+[![MiniMax](https://img.shields.io/badge/MiniMax-API-blue)](https://www.minimaxi.com/developers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
 ## What This Repo Covers
@@ -171,6 +172,16 @@ See [`.env.example`](.env.example) for all environment variables used in this se
 # Copy and fill in your values
 cp .env.example .env
 ```
+
+## References
+
+This guide is based on and expands the official Cloudflare AI Gateway documentation:
+
+- [Cloudflare AI Gateway Docs](https://developers.cloudflare.com/ai-gateway/) — Official documentation
+- [Cloudflare AI Gateway API](https://developers.cloudflare.com/api/resources/ai-gateway/) — REST API reference
+- [Custom Provider Setup](https://developers.cloudflare.com/ai-gateway/providers/) — Adding third-party providers
+- [Caching in AI Gateway](https://developers.cloudflare.com/ai-gateway/caching/) — Official caching docs
+- [MiniMax API Docs](https://www.minimaxi.com/developers) — MiniMax API reference
 
 ## License
 
