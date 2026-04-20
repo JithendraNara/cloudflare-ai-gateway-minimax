@@ -64,10 +64,11 @@ In the same gateway settings, add the custom provider:
 | Field | Value |
 |-------|-------|
 | **Provider Name** | `minimax` |
-| **base_url** | `https://api.minimax.io/anthropic` |
+| **base_url** | `https://api.minimax.io` |
 | **Auth Type** | `API Key` (key stored via Provider Key above) |
 
 > **Important:** keep the MiniMax API key in Cloudflare BYOK. Application requests authenticate to Cloudflare with `cf-aig-authorization`; do not send your MiniMax key from the app.
+> The custom provider `base_url` should be the API root. Include `/anthropic/...` or `/v1/...` in the gateway request path.
 
 ### 3. Make Your First Request
 

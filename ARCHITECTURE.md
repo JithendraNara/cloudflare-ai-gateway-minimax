@@ -89,7 +89,7 @@ cf-aigateway-minimax/
 
 MiniMax is not a built-in provider in AI Gateway. We use the **Custom Provider** (BYOK) mechanism:
 - Store MiniMax API key in Cloudflare (Provider Keys)
-- Configure `base_url: https://api.minimax.io/anthropic`
+- Configure `base_url: https://api.minimax.io`
 - Route all requests through `/custom-minimax/` path prefix
 
 ### 2. Per-Request Caching over Gateway-Level Default

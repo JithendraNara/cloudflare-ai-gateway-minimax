@@ -4,7 +4,7 @@
 
 - **AI Gateway:** `default` (id: `f59f55a0-7ea9-4c4f-b382-d26a1bf3d3e2`)
 - **Account ID:** `5702cb9b775b5b56b31b897bae3c130d`
-- **Provider:** `custom-minimax` (base_url: `https://api.minimax.io/anthropic`)
+- **Provider:** `custom-minimax` (base_url: `https://api.minimax.io`)
 - **Runtime Token:** `cfut_...` (AI Gateway Run permission)
 
 ## Test 1: Basic Cache Warm-Up

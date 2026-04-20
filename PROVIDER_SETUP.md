@@ -38,7 +38,7 @@ Still in gateway settings, navigate to **Providers** → **Custom Providers** �
 | Field | Value | Notes |
 |-------|-------|-------|
 | **Provider Name** | `minimax` | Lowercase, used in URL paths |
-| **base_url** | `https://api.minimax.io/anthropic` | Critical — must include `/anthropic` |
+| **base_url** | `https://api.minimax.io` | API root; request paths include `/anthropic/...` or `/v1/...` |
 | **Auth Type** | `API Key` | Select the Provider Key added in Step 2 |
 
 ### Working Route Map
@@ -53,6 +53,14 @@ MiniMax supports multiple API surfaces. With the custom provider slug `minimax`,
 | Image generation | `/custom-minimax/v1/image_generation` | Text-to-image |
 
 Do not send the MiniMax key from your app. Store it as a Cloudflare provider key and use `cf-aig-authorization` for runtime requests.
+
+Cloudflare appends everything after `/custom-minimax/` to this base URL:
+
+```
+Gateway path:  /custom-minimax/anthropic/v1/messages
+base_url:      https://api.minimax.io
+Upstream:      https://api.minimax.io/anthropic/v1/messages
+```
 
 ## Step 4: Verify the Setup
 
