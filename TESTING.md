@@ -14,7 +14,7 @@
 UNIQ="test-phrase-abc123"
 curl -i -X POST ".../custom-minimax/v1/chat/completions" \
   -H "cf-aig-cache-ttl: 300" \
-  -d '{"model": "minimax-m2.7", "messages": [...], "max_tokens": 30}'
+  -d '{"model": "MiniMax-M2.7", "messages": [...], "max_tokens": 30}'
 
 # Result:
 # HTTP 200
@@ -38,14 +38,14 @@ curl -i -X POST ".../custom-minimax/v1/chat/completions" \
 # Turn 1: Fresh conversation
 curl -i -X POST ".../custom-minimax/v1/chat/completions" \
   -H "cf-aig-cache-ttl: 300" \
-  -d '{"model": "minimax-m2.7", "messages": [{"role": "user", "content": "My favorite color is blue."}], "max_tokens": 30}'
+  -d '{"model": "MiniMax-M2.7", "messages": [{"role": "user", "content": "My favorite color is blue."}], "max_tokens": 30}'
 
 # Result: MISS, 0.86s
 
 # Turn 2: Same conversation (exact same 3-message array)
 curl -i -X POST ".../custom-minimax/v1/chat/completions" \
   -H "cf-aig-cache-ttl: 300" \
-  -d '{"model": "minimax-m2.7", "messages": [{"role": "user", "content": "My favorite color is blue."}, {"role": "assistant", "content": "I will remember that."}, {"role": "user", "content": "What is my favorite color?"}], "max_tokens": 30}'
+  -d '{"model": "MiniMax-M2.7", "messages": [{"role": "user", "content": "My favorite color is blue."}, {"role": "assistant", "content": "I will remember that."}, {"role": "user", "content": "What is my favorite color?"}], "max_tokens": 30}'
 
 # Result: MISS, 4.54s (longer prompt = more compute)
 
@@ -80,7 +80,7 @@ curl -i -X POST ".../custom-minimax/v1/chat/completions" \
 ```bash
 # Request WITHOUT cf-aig-cache-ttl
 curl -i -X POST ".../custom-minimax/v1/chat/completions" \
-  -d '{"model": "minimax-m2.7", "messages": [...]}'
+  -d '{"model": "MiniMax-M2.7", "messages": [...]}'
 
 # Result: cf-aig-cache-status: MISS (no caching)
 ```
@@ -95,14 +95,14 @@ curl -i -X POST ".../custom-minimax/v1/chat/completions" \
 # First: cache normally
 curl -i -X POST ".../custom-minimax/v1/chat/completions" \
   -H "cf-aig-cache-ttl: 300" \
-  -d '{"model": "minimax-m2.7", "messages": [...]}'
+  -d '{"model": "MiniMax-M2.7", "messages": [...]}'
 # Result: MISS, cached
 
 # Second: skip cache
 curl -i -X POST ".../custom-minimax/v1/chat/completions" \
   -H "cf-aig-cache-ttl: 300" \
   -H "cf-aig-skip-cache: true" \
-  -d '{"model": "minimax-m2.7", "messages": [...]}'
+  -d '{"model": "MiniMax-M2.7", "messages": [...]}'
 # Result: MISS, not served from cache
 ```
 
@@ -117,7 +117,7 @@ curl -i -X POST ".../custom-minimax/v1/chat/completions" \
 curl -i -X POST ".../custom-minimax/v1/chat/completions" \
   -H "cf-aig-cache-ttl: 300" \
   -H "cf-aig-cache-key: cache-key-alpha" \
-  -d '{"model": "minimax-m2.7", "messages": [...]}'
+  -d '{"model": "MiniMax-M2.7", "messages": [...]}'
 # Result: MISS
 
 # Same with key-A again
@@ -137,7 +137,7 @@ curl -i -X POST ".../custom-minimax/v1/chat/completions" \
 # User A asks question (first ever)
 curl -i -X POST ".../custom-minimax/v1/chat/completions" \
   -H "cf-aig-cache-ttl: 300" \
-  -d '{"model": "minimax-m2.7", "messages": [{"role": "user", "content": "Who won IPL 2024?"}]}'
+  -d '{"model": "MiniMax-M2.7", "messages": [{"role": "user", "content": "Who won IPL 2024?"}]}'
 # Result: MISS, 1.0s
 
 # User B asks exact same question

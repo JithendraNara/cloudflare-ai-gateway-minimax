@@ -67,7 +67,7 @@ In the same gateway settings, add the custom provider:
 | **base_url** | `https://api.minimax.io/anthropic` |
 | **Auth Type** | `API Key` (key stored via Provider Key above) |
 
-> **Important:** MiniMax uses a non-standard path `/anthropic/v1/chat/completions`. The `base_url` MUST include `/anthropic` — do not add it again in your request paths.
+> **Important:** keep the MiniMax API key in Cloudflare BYOK. Application requests authenticate to Cloudflare with `cf-aig-authorization`; do not send your MiniMax key from the app.
 
 ### 3. Make Your First Request
 
@@ -77,13 +77,17 @@ export AIG_TOKEN="cfut_YOUR_RUN_TOKEN"
 export ACCOUNT_ID="your_account_id"
 export GATEWAY="your_gateway_id"
 
-# Provider-native endpoint
-curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-minimax/v1/chat/completions" \
+# Anthropic-compatible Messages endpoint (recommended for MiniMax-M2.7)
+curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-minimax/anthropic/v1/messages" \
   -H "cf-aig-authorization: Bearer $AIG_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "minimax-m2.7",
-    "messages": [{"role": "user", "content": "Hello!"}],
+    "model": "MiniMax-M2.7",
+    "system": "You are concise.",
+    "messages": [{
+      "role": "user",
+      "content": [{"type": "text", "text": "Return exactly: gateway-ok"}]
+    }],
     "max_tokens": 50
   }'
 ```
@@ -95,16 +99,19 @@ curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/compat/c
   -H "cf-aig-authorization: Bearer $AIG_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "custom-minimax/minimax-m2.7",
+    "model": "custom-minimax/MiniMax-M2.7",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```
+
+> MiniMax's OpenAI-compatible API may include `<think>` / reasoning content in `message.content`. For cleaner separation of thinking and final text, prefer the Anthropic-compatible Messages route above.
 
 ## Key Endpoints Tested
 
 | Endpoint | Method | Model | Status |
 |----------|--------|-------|--------|
-| `/v1/chat/completions` | POST | `minimax-m2.7` | ✅ Working |
+| `/anthropic/v1/messages` | POST | `MiniMax-M2.7` | ✅ Working — recommended chat route |
+| `/v1/chat/completions` | POST | `MiniMax-M2.7` | ✅ Working — OpenAI-compatible, may include reasoning in content |
 | `/v1/t2a_v2` | POST | `speech-2.8-hd` | ✅ Working |
 | `/v1/image_generation` | POST | `image-01` | ✅ Working |
 | `/v1/embeddings` | POST | `embo-01` | ⚠️ Requires paid plan |
@@ -164,8 +171,9 @@ headers = {
 |--------|-------------|------------|
 | AI Gateway proxy | `cf-aig-authorization: Bearer` | `cfut_...` (Runtime) |
 | Cloudflare REST API | `Authorization: Bearer` | `cfat_...` (Management) |
+| MiniMax upstream | Stored in Cloudflare BYOK | MiniMax API key |
 
-> ⚠️ **Same token value, different header name.** Using `Authorization` on AI Gateway proxy = 401 errors.
+> ⚠️ Runtime requests to AI Gateway use `cf-aig-authorization`. `Authorization` is reserved for Cloudflare management API calls, and the MiniMax provider key should be stored in Cloudflare BYOK.
 
 ## Environment Variables
 

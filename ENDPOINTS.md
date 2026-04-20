@@ -1,23 +1,24 @@
 # Tested Endpoints — MiniMax via AI Gateway
 
-## Chat Completions
+## Chat — Anthropic-Compatible Messages (Recommended)
 
-**Endpoint:** `POST /v1/chat/completions`
-**Provider path:** `custom-minimax/v1/chat/completions`
-**Model:** `minimax-m2.7`
+**Endpoint:** `POST /anthropic/v1/messages`
+**Provider path:** `custom-minimax/anthropic/v1/messages`
+**Model:** `MiniMax-M2.7`
 
 ```bash
-curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-minimax/v1/chat/completions" \
+curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-minimax/anthropic/v1/messages" \
   -H "cf-aig-authorization: Bearer $AIG_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "minimax-m2.7",
-    "messages": [
-      {"role": "system", "content": "You are a cricket analyst."},
-      {"role": "user", "content": "Who will win IPL 2026?"}
-    ],
+    "model": "MiniMax-M2.7",
+    "system": "You are a cricket analyst.",
+    "messages": [{
+      "role": "user",
+      "content": [{"type": "text", "text": "Who will win IPL 2026?"}]
+    }],
     "max_tokens": 200,
-    "temperature": 0.7
+    "temperature": 1
   }'
 ```
 
@@ -25,18 +26,41 @@ curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-m
 ```json
 {
   "id": "...",
-  "choices": [{
-    "message": {
-      "role": "assistant",
-      "content": "Based on current team compositions..."
-    }
-  }],
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {"type": "thinking", "thinking": "..."},
+    {"type": "text", "text": "Based on current team compositions..."}
+  ],
   "usage": {
-    "total_tokens": 185,
-    "completion_tokens": 120
+    "input_tokens": 65,
+    "output_tokens": 120
   }
 }
 ```
+
+---
+
+## Chat — OpenAI-Compatible
+
+**Endpoint:** `POST /v1/chat/completions`
+**Provider path:** `custom-minimax/v1/chat/completions`
+**Model:** `MiniMax-M2.7`
+
+```bash
+curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-minimax/v1/chat/completions" \
+  -H "cf-aig-authorization: Bearer $AIG_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "MiniMax-M2.7",
+    "messages": [{"role": "user", "content": "Hello!"}],
+    "max_tokens": 200,
+    "temperature": 1,
+    "reasoning_split": true
+  }'
+```
+
+> MiniMax's OpenAI-compatible API can include reasoning in `message.content`. Use the Anthropic-compatible route above if you want separate thinking/text blocks.
 
 ---
 
@@ -137,7 +161,7 @@ curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-m
   -H "cf-aig-authorization: Bearer $AIG_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "minimax-m2.7",
+    "model": "MiniMax-M2.7",
     "messages": [{"role": "user", "content": "Explain quantum physics in one sentence."}],
     "max_tokens": 100,
     "stream": true

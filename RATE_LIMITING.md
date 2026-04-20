@@ -175,7 +175,7 @@ curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-m
   -H "cf-aig-authorization: Bearer $CFUT_TOKEN" \
   -H "Content-Type: application/json" \
   -H "cf-aig-rate-limit: 2" \
-  -d '{"model": "minimax-m2.7", "messages": [{"role": "user", "content": "hi"}], "max_tokens": 10}'
+  -d '{"model": "MiniMax-M2.7", "messages": [{"role": "user", "content": "hi"}], "max_tokens": 10}'
 ```
 
 **Test result:** With a gateway limit of 5/min, sending requests with `cf-aig-rate-limit: 2` still succeeded for all 3 requests — the override was applied per-request, but the limit of 2 was not exceeded in those 3 requests. (The test showed the header is recognized, but the exact scoping — whether it sets a new limit per request or applies to the next N requests — requires further testing.)

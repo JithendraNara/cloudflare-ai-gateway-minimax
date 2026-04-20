@@ -136,7 +136,7 @@ def send_broadcast(prompt: str, ttl: int = 3600):
         f"https://gateway.ai.cloudflare.com/v1/{ACCOUNT_ID}/{GATEWAY}/custom-minimax/v1/chat/completions",
         headers=headers,
         json={
-            "model": "minimax-m2.7",
+            "model": "MiniMax-M2.7",
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": 500,
         },
@@ -161,7 +161,7 @@ curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-m
   -H "cf-aig-cache-ttl: 300" \
   -H "cf-aig-skip-cache: true" \
   -H "Content-Type: application/json" \
-  -d '{"model": "minimax-m2.7", "messages": [...]}'
+  -d '{"model": "MiniMax-M2.7", "messages": [...]}'
 ```
 
 Use cases:
@@ -179,11 +179,11 @@ Override what counts as "identical" using `cf-aig-cache-key`:
 # Same prompt, but different cache keys = different entries
 curl -X POST "..." \
   -H "cf-aig-cache-key: user-segment-A" \
-  -d '{"model": "minimax-m2.7", "messages": [...]}'
+  -d '{"model": "MiniMax-M2.7", "messages": [...]}'
 
 curl -X POST "..." \
   -H "cf-aig-cache-key: user-segment-B" \
-  -d '{"model": "minimax-m2.7", "messages": [...]}'
+  -d '{"model": "MiniMax-M2.7", "messages": [...]}'
 ```
 
 Use cases:

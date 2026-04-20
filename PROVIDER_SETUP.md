@@ -41,17 +41,18 @@ Still in gateway settings, navigate to **Providers** → **Custom Providers** �
 | **base_url** | `https://api.minimax.io/anthropic` | Critical — must include `/anthropic` |
 | **Auth Type** | `API Key` | Select the Provider Key added in Step 2 |
 
-### Why `/anthropic` in the base_url?
+### Working Route Map
 
-MiniMax's API is not fully OpenAI-compatible. Standard endpoints use `/anthropic/v1/...` paths rather than `/v1/...`. By setting `base_url` to `https://api.minimax.io/anthropic`, the gateway correctly routes:
+MiniMax supports multiple API surfaces. With the custom provider slug `minimax`, call it through AI Gateway as `custom-minimax`.
 
-```
-Gateway path:  /custom-minimax/v1/chat/completions
-              ↓
-base_url:     https://api.minimax.io/anthropic
-              ↓
-Upstream:     https://api.minimax.io/anthropic/v1/chat/completions ✅
-```
+| Use case | Gateway path | Notes |
+|----------|--------------|-------|
+| Chat, recommended | `/custom-minimax/anthropic/v1/messages` | Anthropic-compatible; separates thinking/text blocks |
+| Chat, OpenAI-compatible | `/custom-minimax/v1/chat/completions` | Works, but M2.7 may include reasoning in `message.content` |
+| Text-to-Speech | `/custom-minimax/v1/t2a_v2` | HTTP TTS |
+| Image generation | `/custom-minimax/v1/image_generation` | Text-to-image |
+
+Do not send the MiniMax key from your app. Store it as a Cloudflare provider key and use `cf-aig-authorization` for runtime requests.
 
 ## Step 4: Verify the Setup
 
@@ -60,28 +61,33 @@ export AIG_TOKEN="cfut_YOUR_RUN_TOKEN"
 export ACCOUNT_ID="your_account_id"
 export GATEWAY="your_gateway_id"
 
-# Test chat completions
+# Test Anthropic-compatible Messages
 curl -s -w "\nStatus: %{http_code}\n" -X POST \
-  "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-minimax/v1/chat/completions" \
+  "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-minimax/anthropic/v1/messages" \
   -H "cf-aig-authorization: Bearer $AIG_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "minimax-m2.7",
-    "messages": [{"role": "user", "content": "Hello, respond in 3 words."}],
+    "model": "MiniMax-M2.7",
+    "system": "Respond with only the requested final text.",
+    "messages": [{
+      "role": "user",
+      "content": [{"type": "text", "text": "Return exactly: gateway-ok"}]
+    }],
     "max_tokens": 20
-  }' | python3 -c "import sys,json; d=json.load(sys.stdin); print('Content:', d['choices'][0]['message']['content'])"
+  }'
 ```
 
-Expected output: `Content: Hello! How can I...`
+Expected output includes a `content` array with a final text block: `gateway-ok`.
 
 ## Common Errors
 
 | Error | Cause | Fix |
 |-------|-------|-----|
 | `code: 2008, Invalid provider` | Provider slug wrong in URL | Use `custom-minimax` not `minimax` |
-| `login fail (401)` | base_url missing `/anthropic` | Must be `https://api.minimax.io/anthropic` |
-| `unknown model 'm2.7'` | Model name format wrong | Use full name: `minimax-m2.7` |
-| 401 on all requests | Wrong auth header | Use `cf-aig-authorization` not `Authorization` |
+| `login fail (401)` | MiniMax provider key not attached or not forwarded | Store the MiniMax key in Cloudflare BYOK and select it for the provider |
+| `unknown model 'm2.7'` | Model name format wrong | Use full name: `MiniMax-M2.7` |
+| 401 on gateway requests | Wrong runtime auth header | Use `cf-aig-authorization`, not `Authorization` |
+| 404 on `/custom-minimax/v1/messages` | Missing Anthropic path prefix | Use `/custom-minimax/anthropic/v1/messages` |
 
 ## Provider URL Formats
 
@@ -97,4 +103,4 @@ Use when the endpoint path differs from OpenAI's standard `/v1/...` format.
 ```
 https://gateway.ai.cloudflare.com/v1/{account}/{gateway}/compat/chat/completions
 ```
-Model name format: `custom-minimax/minimax-m2.7`
+Model name format: `custom-minimax/MiniMax-M2.7`

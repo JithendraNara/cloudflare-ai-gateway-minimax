@@ -11,7 +11,9 @@ MiniMax Text-to-Speech (TTS) works through AI Gateway via **HTTP only** (non-str
 POST https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway}/custom-minimax/v1/t2a_v2
 ```
 
-**Auth:** `Authorization: Bearer {cfut_token}` (runtime token)
+**Auth:** `cf-aig-authorization: Bearer {cfut_token}` (runtime token)
+
+The MiniMax API key should be stored in Cloudflare BYOK and selected for the custom provider. Do not send the MiniMax key from your application.
 
 **Request body:**
 ```json
@@ -33,16 +35,17 @@ POST https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway}/custom-minimax/
 }
 ```
 
-**Response:** Binary MP3 audio in `data.audio` field (hex-encoded).
+**Response:** audio in `data.audio`. With `output_format: "hex"` this is hex-encoded audio; with `output_format: "url"` this is a temporary MP3 URL.
 
 **Example curl:**
 ```bash
 curl -X POST "https://gateway.ai.cloudflare.com/v1/ACCOUNT_ID/GATEWAY/custom-minimax/v1/t2a_v2" \
-  -H "Authorization: Bearer $CFUT_TOKEN" \
+  -H "cf-aig-authorization: Bearer $CFUT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "speech-2.8-hd",
     "text": "Hello world",
+    "output_format": "hex",
     "voice_setting": {"voice_id": "male-qn-qingse", "speed": 1, "vol": 1, "pitch": 0},
     "audio_setting": {"sample_rate": 32000, "bitrate": 128000, "format": "mp3", "channel": 1}
   }'
@@ -60,7 +63,7 @@ resp = requests.post(
         "voice_setting": {"voice_id": "male-qn-qingse", "speed": 1, "vol": 1, "pitch": 0},
         "audio_setting": {"sample_rate": 32000, "bitrate": 128000, "format": "mp3", "channel": 1}
     },
-    headers={"Authorization": f"Bearer {cfut_token}", "Content-Type": "application/json"}
+    headers={"cf-aig-authorization": f"Bearer {cfut_token}", "Content-Type": "application/json"}
 )
 
 audio_hex = resp.json()["data"]["audio"]

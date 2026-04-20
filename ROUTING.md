@@ -17,7 +17,7 @@ curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/compat/c
   -H "cf-aig-authorization: Bearer $AIG_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "custom-minimax/minimax-m2.7",
+    "model": "custom-minimax/MiniMax-M2.7",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```
@@ -44,7 +44,7 @@ curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-m
   -H "cf-aig-authorization: Bearer $AIG_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "minimax-m2.7",
+    "model": "MiniMax-M2.7",
     "messages": [{"role": "user", "content": "Hello!"}],
     "max_tokens": 50
   }'
@@ -65,7 +65,8 @@ curl -X POST "https://gateway.ai.cloudflare.com/v1/$ACCOUNT_ID/$GATEWAY/custom-m
 
 | Scenario | Recommended |
 |----------|------------|
-| General chat with OpenAI SDK | `/compat/` |
+| General chat with MiniMax-M2.7 | `/custom-minimax/anthropic/v1/messages` |
+| OpenAI SDK compatibility | `/custom-minimax/v1/chat/completions` or `/compat/` |
 | MiniMax-specific params (T2A, image gen) | `/custom-minimax/` |
 | Streaming responses | `/custom-minimax/` |
 | Multi-modal (image, audio) | `/custom-minimax/` |
@@ -99,7 +100,7 @@ AI Gateway supports **Dynamic Routing** — visual or JSON-based routing logic.
       "id": "primary",
       "type": "model",
       "provider": "custom-minimax",
-      "model": "minimax-m2.7"
+      "model": "MiniMax-M2.7"
     },
     {
       "id": "fallback",

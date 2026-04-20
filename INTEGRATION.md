@@ -34,7 +34,7 @@ class AIGatewayClient:
     def chat(
         self,
         messages: list,
-        model: str = "minimax-m2.7",
+        model: str = "MiniMax-M2.7",
         max_tokens: int = 500,
         cache_ttl: Optional[int] = None,
         skip_cache: bool = False,
@@ -68,6 +68,31 @@ class AIGatewayClient:
 
         return data["choices"][0]["message"]["content"], cache_status
 
+    def messages(
+        self,
+        messages: list,
+        system: str = "You are concise.",
+        model: str = "MiniMax-M2.7",
+        max_tokens: int = 500,
+    ) -> dict:
+        """Anthropic-compatible route; preferred for MiniMax-M2.7 thinking/text blocks."""
+        response = requests.post(
+            f"{self.base_url}/{self.provider_slug}/anthropic/v1/messages",
+            headers={
+                "cf-aig-authorization": f"Bearer {self.token}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": model,
+                "system": system,
+                "messages": messages,
+                "max_tokens": max_tokens,
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        return response.json()
+
 
 # Initialize
 client = AIGatewayClient(
@@ -91,7 +116,7 @@ def text_to_speech(
     text: str,
     voice_id: str = "male-qn-qingse",
     speed: float = 1.0,
-) -> bytes:
+) -> dict:
     """Generate speech via AI Gateway T2A endpoint."""
     response = requests.post(
         f"{base_url}/{provider_slug}/v1/t2a_v2",
@@ -118,7 +143,8 @@ def text_to_speech(
         },
         timeout=30,
     )
-    return response.content  # raw MP3 bytes
+    response.raise_for_status()
+    return response.json()  # data.audio is a URL or hex string depending on output_format
 ```
 
 ## Integration Pattern: Image Generation

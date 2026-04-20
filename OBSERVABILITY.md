@@ -30,7 +30,7 @@ Authorization: Bearer cfat_YOUR_MANAGEMENT_TOKEN
 **Grouping dimensions** (`dimensions`):
 - `datetimeMinute` — minute-level timestamp
 - `datetimeHour` — hour-level timestamp
-- `model` — model name (e.g., `minimax-m2.7`)
+- `model` — model name (e.g., `MiniMax-M2.7`)
 - `provider` — provider name (e.g., `custom-minimax`)
 - `gateway` — gateway ID (e.g., `default`)
 - `statusCode` — HTTP status code
@@ -181,7 +181,7 @@ Our account's top 10 request groups (2026-04-01 to 2026-04-19):
 
 | Model | Provider | Gateway | Status | Requests | Cached | Cost |
 |-------|----------|---------|--------|----------|--------|------|
-| minimax-m2.7 | custom-minimax | default | 200 | 112 | 20 | $0.00 |
+| MiniMax-M2.7 | custom-minimax | default | 200 | 112 | 20 | $0.00 |
 | llama-2-7b-chat-fp16 | workers-ai | default | 200 | 7 | 1 | $0.001056 |
 | bge-large-en-v1.5 | workers-ai | default | 200 | 1 | 0 | $0.00 |
 | unknown | custom-minimax | default | 401 | 9 | — | $0.00 |
